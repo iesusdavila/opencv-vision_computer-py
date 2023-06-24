@@ -28,7 +28,11 @@ blank_grises = np.zeros(img.shape, dtype='uint8')
 cv.drawContours(blank_grises, contornos_grises, -1, (0,0,255), 1)
 cv.imshow('Dibujo de contornos imagen en grises', blank_grises)
 
-cv.drawContours(blank, contornos, -1, (0,0,255), 1)
+cv.drawContours(blank, contornos, -1, (0,255,0), 1)
 cv.imshow('Dibujo de contornos imagen normal', blank)
+
+#---- Tercera forma de encontrar bordes ----
+ret, thresh = cv.threshold(gray, 125, 255, cv.THRESH_BINARY)
+cv.imshow('Contornos por Umbral', thresh)
 
 cv.waitKey(0)
