@@ -1,11 +1,11 @@
 import cv2 as cv
 
 # Leer imagenes
-# img = cv.imread('../Resources/Photos/cat.jpg')
+img = cv.imread('../Resources/Photos/cat.jpg')
 
-# cv.imshow('Gato', img)
+cv.imshow('Gato', img)
 
-# cv.waitKey(0)
+cv.waitKey(0)
 
 # Leer videos
 video = cv.VideoCapture('../Resources/Videos/dog.mp4')

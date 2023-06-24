@@ -1,8 +1,8 @@
 import cv2 as cv
-import sklearn as skl
+import numpy as np
 
 img = cv.imread('../Resources/Photos/park.jpg')
-
+print(np.shape(img))
 cv.imshow('Imagen sin cambios', img)
 
 # Convertir a escala de grises
@@ -22,7 +22,10 @@ dilated = cv.dilate(img, (8,8), iterations=20)
 cv.imshow('Dilatacion',dilated)
 
 # Recortar imagen
-recorte = img[200:300, 200:400]
+recorte = img[:,:320]
 cv.imshow('Recorte', recorte)
+
+recorte_segundmitad = img[:,320:]
+cv.imshow('Recorte otra mitad', recorte_segundmitad)
 
 cv.waitKey(0)

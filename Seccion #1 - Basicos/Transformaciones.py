@@ -5,15 +5,14 @@ img = cv.imread('../Resources/Photos/park.jpg')
 cv.imshow('Parque', img)
 
 
-# Translacion
+# Traslacion
 def translate(img, x, y):
-    transMat = np.float32([[1, 0, x], [0, 1, y]])
+    transMat = np.float32([[1, 0.5, x], [0, 1, y]])
     dimensions = (img.shape[1], img.shape[0])
     return cv.warpAffine(img, transMat, dimensions)
 
-translated = translate(img, -100, 100)
+translated = translate(img, -100, -100)
 cv.imshow('Translated', translated)
-
 
 # Rotacion
 def rotate(img, angle, rotPoint=None):
@@ -27,7 +26,6 @@ def rotate(img, angle, rotPoint=None):
 
     return cv.warpAffine(img, rotMat, dimensions)
 
-
 rotated = rotate(img, -45)
 cv.imshow('Rotacion', rotated)
 
@@ -36,6 +34,7 @@ cv.imshow('Doble Rotacion', rotated_rotated)
 
 # Redimensionamiento
 resized = cv.resize(img, (500, 500), interpolation=cv.INTER_CUBIC)
+print(resized.shape)
 cv.imshow('Resized', resized)
 
 # Voltear
