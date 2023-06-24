@@ -1,6 +1,9 @@
 import cv2 as cv
+import sklearn as skl
 
 img = cv.imread('../Resources/Photos/park.jpg')
+
+cv.imshow('Imagen sin cambios', img)
 
 # Convertir a escala de grises
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)

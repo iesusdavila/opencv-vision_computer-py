@@ -14,6 +14,7 @@ def redimensionarFrame(frame, scale=0.75):
 img = cv.imread('../Resources/Photos/cat.jpg')
 img_resized = redimensionarFrame(img, scale=0.3)
 
+cv.imshow('Gato sin redimenzionar', img)
 cv.imshow('Gato', img_resized)
 
 cv.waitKey(0)
