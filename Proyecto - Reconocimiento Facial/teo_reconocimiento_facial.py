@@ -14,7 +14,7 @@ haar_cascade = cv.CascadeClassifier('haar_face.xml')
 # recibe 3 parametros: imagen a tratar,
 # factor de escala para la deteccion:  permite detectar objetos de diferentes tamaños, 1.1 es una reduccion del 10%.
 # numero minimo de vecinos requeridos para que se detecte una region como una cara
-faces_rect = haar_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=2)
+faces_rect = haar_cascade.detectMultiScale(gray, scaleFactor=2.5, minNeighbors=5)
 
 # --> numero de caras encontradas
 print(f'Numero de caras encontradas = {len(faces_rect)}')
@@ -27,7 +27,7 @@ for (x,y,w,h) in faces_rect:
     # --> dibujar un rectangulo
     # parametros: imagen a tratar, coordenada donde inicia el rectangulo,
     # coordenada donde termina el rectangulo, color y grosos del rectangulo
-    cv.rectangle(img, (x,y), (x+w,y+h), (0,255,150), thickness=2)
+    cv.rectangle(img, (x,y), (x+w,y+h), (0,0,255), thickness=3)
 
 cv.imshow('Imagenes encontradas', img)
 
