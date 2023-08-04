@@ -14,7 +14,7 @@ haar_cascade = cv.CascadeClassifier('haar_face.xml')
 # recibe 3 parametros: imagen a tratar,
 # factor de escala para la deteccion:  permite detectar objetos de diferentes tamaños, 1.1 es una reduccion del 10%.
 # numero minimo de vecinos requeridos para que se detecte una region como una cara
-faces_rect = haar_cascade.detectMultiScale(gray, scaleFactor=2.5, minNeighbors=5)
+faces_rect = haar_cascade.detectMultiScale(gray, scaleFactor=2.5, minNeighbors=5, minSize=(60, 60), flags = cv.CASCADE_SCALE_IMAGE)
 
 # --> numero de caras encontradas
 print(f'Numero de caras encontradas = {len(faces_rect)}')

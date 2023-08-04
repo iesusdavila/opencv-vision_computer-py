@@ -11,6 +11,11 @@ bordes = cv2.Canny(grises, 150, 450, True)
 # CHAIN_APPROX_SIMPLE: método de aproximación de contornos
 ctns, _ = cv2.findContours(bordes, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
+print(ctns[0].shape)
+
+for i in range(len(ctns[0])):
+    print(ctns[0][i])
+
 # dibujar los contornos
 cv2.drawContours(imagen, ctns, -1, (0,0,255), 2)
 print('Número de contornos encontrados: ', len(ctns))
