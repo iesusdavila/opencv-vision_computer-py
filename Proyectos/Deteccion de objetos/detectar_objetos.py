@@ -45,7 +45,7 @@ while video.isOpened():
             frame = cv.circle(frame, (int(a), int(b)), 5, (0, 0, 255), -1)
 
         img = cv.add(frame, mask)
-        cv.imshow('Video', frame)
+        cv.imshow('Video', img)
 
         # Actualizar el fotograma anterior y keypoints para el siguiente ciclo
         old_gray = gray.copy()
