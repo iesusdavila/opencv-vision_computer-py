@@ -10,6 +10,27 @@ old_gray = None
 old_keypoints = None
 mask = None
 
+def custom_old_frame(img_gry):
+    old_gray = gray
+    # Algoritmo de detección de características SIFT
+    keypoints, descriptors = sift.detectAndCompute(gray, None)
+    # Convertir los keypoints para el cálculo del flujo óptico en el siguiente ciclo
+    old_keypoints = np.array([k.pt for k in keypoints], dtype=np.float32).reshape(-1, 1, 2)
+    # Crear mascara en negro del mismo tamaño de la imagen capturada
+    mask = np.zeros_like(frame)
+    
+    return (old_gray, old_keypoints, mask)
+
+def good_keypoint_new_old(old_gray, gray, old_keypoints):
+    # Algoritmo Lucas-Kanade para calcular el flujo óptico entre el fotograma anterior y el fotograma actual
+    keypoints, st, err = cv.calcOpticalFlowPyrLK(old_gray, gray, old_keypoints, None)
+    # Filtrar los keypoints encontrados con éxito en el fotograma actual (st)
+    good_new = keypoints[st == 1]
+    # Filtrar los keypoints del fotograma anterior que se han encontrado en el fotograma actual.
+    good_old = old_keypoints[st == 1]
+    
+    return (good_new, good_old)
+
 while video.isOpened():
     isTrue, frame = video.read()
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -17,23 +38,11 @@ while video.isOpened():
     # Validar si no se obtiene una imagen gris tomada por primera vez
     if old_gray is None:
         # Si es el primer fotograma, inicializamos las variables para el seguimiento
-        old_gray = gray
-        # Algoritmo de detección de características SIFT
-        keypoints, descriptors = sift.detectAndCompute(gray, None)
-        # Convertir los keypoints para el cálculo del flujo óptico en el siguiente ciclo
-        old_keypoints = np.array([k.pt for k in keypoints], dtype=np.float32).reshape(-1, 1, 2)
-        # Crear mascara en negro del mismo tamaño de la imagen capturada
-        mask = np.zeros_like(frame)
+        old_gray, old_keypoints, mask = custom_old_frame(old_gray)
     else:
         # Si ya se han detectado keypoints en el primer fotograma, continuamos con el seguimiento
-        # Algoritmo Lucas-Kanade para calcular el flujo óptico entre el fotograma anterior y el fotograma actual
-        keypoints, st, err = cv.calcOpticalFlowPyrLK(old_gray, gray, old_keypoints, None)
-        # Filtrar los keypoints encontrados con éxito en el fotograma actual (st)
-        good_new = keypoints[st == 1]
-        # Filtrar los keypoints del fotograma anterior que se han encontrado en el fotograma actual.
-        good_old = old_keypoints[st == 1]
-
-        # Dibujar las líneas de seguimiento en el fotograma actual
+        good_new, good_old = good_keypoint_new_old(old_gray, gray, old_keypoints)
+        
         # Iterar sobre los keypoints del fotograma actual (good_new) y los keypoints del fotograma anterior (good_old)
         for i, (new, old) in enumerate(zip(good_new, good_old)):
             # ravel() se utiliza para aplanar el array en un vector unidimensional.
