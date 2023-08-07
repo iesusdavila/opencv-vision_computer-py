@@ -65,9 +65,7 @@ class handDetector():
     
     def dedosArriba(self):
         fingers = []
-        
-        print(self.ptRefList)
-        
+                
         if len(self.ptRefList) != 0:
             if self.ptRefList[self.tipIds[0]][1] > self.ptRefList[self.tipIds[0] - 1][1]:
                 fingers.append(1)
