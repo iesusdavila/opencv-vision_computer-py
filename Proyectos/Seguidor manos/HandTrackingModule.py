@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import math
 
 class handDetector():
     
@@ -79,6 +80,20 @@ class handDetector():
                 else:
                     fingers.append(0)
             return fingers
+        
+    def calcularDistancia(self, pt1, pt2, frame, dibujarTrazos=True):
+        x1, y1 = self.ptRefList[pt1][1], self.ptRefList[pt1][2]
+        x2, y2 = self.ptRefList[pt2][1], self.ptRefList[pt2][2]
+        cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+        
+        if dibujarTrazos:
+            cv2.circle(frame, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
+            cv2.circle(frame, (x2, y2), 15, (255, 0, 255), cv2.FILLED)
+            cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 255), 3)
+            cv2.circle(frame, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
+        
+        length = math.hypot(x2 - x1, y2 - y1)
+        return length, frame, [x1, y1, x2, y2, cx, cy]
     
 def main():
     video = cv2.VideoCapture(0)
