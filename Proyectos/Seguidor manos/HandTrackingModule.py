@@ -65,17 +65,20 @@ class handDetector():
     def dedosArriba(self):
         fingers = []
         
-        if self.ptRefList[self.tipIds[0]][1] > self.ptRefList[self.tipIds[0] - 1][1]:
-            fingers.append(1)
-        else:
-            fingers.append(0)
-        # 4 Fingers
-        for id in range(1, 5):
-            if self.ptRefList[self.tipIds[id]][2] < self.ptRefList[self.tipIds[id] - 2][2]:
+        print(self.ptRefList)
+        
+        if len(self.ptRefList) != 0:
+            if self.ptRefList[self.tipIds[0]][1] > self.ptRefList[self.tipIds[0] - 1][1]:
                 fingers.append(1)
             else:
                 fingers.append(0)
-        return fingers
+            # 4 Fingers
+            for id in range(1, 5):
+                if self.ptRefList[self.tipIds[id]][2] < self.ptRefList[self.tipIds[id] - 2][2]:
+                    fingers.append(1)
+                else:
+                    fingers.append(0)
+            return fingers
     
 def main():
     video = cv2.VideoCapture(0)
