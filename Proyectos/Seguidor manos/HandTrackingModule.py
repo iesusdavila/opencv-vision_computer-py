@@ -80,9 +80,7 @@ def main():
         frame = detectorManos.encontrarManos(frame)
         
         ptRefList = detectorManos.encontrarPosicion(frame)
-        
-        #print(ptRefList)
-        
+                
         cv2.putText(frame, str(int(fps)), (10,30), cv2.FONT_HERSHEY_COMPLEX, 1.1, (0,0,0))
         cv2.imshow("Frame del video", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
