@@ -14,7 +14,8 @@ class handDetector():
         self.manos = self.mpManos.Hands(self.mode,self.maxManos,
                                         1,self.minDetectConf,self.minTrackingConf)
         self.mpDibujo = mp.solutions.drawing_utils
-
+        
+        self.tipIds = [4, 8, 12, 16, 20]
 
     def encontrarManos(self, frame, dibujarTrazos=True):
         frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -60,7 +61,21 @@ class handDetector():
                               (bbox[2] + 20, bbox[3] + 20), (0, 0, 255), 2)
         
         return self.ptRefList, bbox
-
+    
+    def dedosArriba(self):
+        fingers = []
+        
+        if self.ptRefList[self.tipIds[0]][1] > self.ptRefList[self.tipIds[0] - 1][1]:
+            fingers.append(1)
+        else:
+            fingers.append(0)
+        # 4 Fingers
+        for id in range(1, 5):
+            if self.ptRefList[self.tipIds[id]][2] < self.ptRefList[self.tipIds[id] - 2][2]:
+                fingers.append(1)
+            else:
+                fingers.append(0)
+        return fingers
     
 def main():
     video = cv2.VideoCapture(0)
@@ -80,6 +95,8 @@ def main():
         frame = detectorManos.encontrarManos(frame)
         
         ptRefList = detectorManos.encontrarPosicion(frame)
+        
+        detectorManos.dedosArriba()
                 
         cv2.putText(frame, str(int(fps)), (10,30), cv2.FONT_HERSHEY_COMPLEX, 1.1, (0,0,0))
         cv2.imshow("Frame del video", frame)
