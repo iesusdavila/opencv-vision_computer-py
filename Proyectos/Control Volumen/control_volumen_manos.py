@@ -39,7 +39,11 @@ while True:
     frame = detector.encontrarManos(frame)
     ptRefList, bbox = detector.encontrarPosicion(frame, dibujarTrazos=True)
     if len(ptRefList) != 0:
-
+        # Obtener dimensiones de la imagen
+        ancho, alto, canales = frame.shape
+        
+        print(ancho, alto)
+        
         # Area del cuadrado de la mano
         area = (bbox[2] - bbox[0]) * (bbox[3] - bbox[1]) // 100
         
@@ -67,23 +71,24 @@ while True:
                 colorVol = (0, 255, 0)
             else:
                 colorVol = (255, 0, 0)
+        else:
+            cv2.putText(frame, 'Se encuentra fuera del rango.', ((ancho//2)-100, alto-250), cv2.FONT_HERSHEY_TRIPLEX, 0.75, (0,0,255), 1)
 
     # ------- Dibujos -------
     # Dibujo del cuadro de volumen
     cv2.rectangle(frame, (50, 150), (85, 400), (53, 53, 47), 2)
     cv2.rectangle(frame, (50, int(volBar)), (85, 400), (76, 76, 65), cv2.FILLED)
     # Numero del nivel del volumen
-    cv2.putText(frame, f'{int(volPer)}%', (40, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (53, 53, 47), 2)
+    cv2.putText(frame, f'{int(volPer)}%', (40, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (53, 53, 47), 1)
     # Volumen seteado
     cVol = int(volume.GetMasterVolumeLevelScalar() * 100)
-    cv2.putText(frame, f'Vol Set: {int(cVol)}', (570, 30), cv2.FONT_HERSHEY_COMPLEX, 1, colorVol, 2)
+    cv2.putText(frame, f'Vol Set: {int(cVol)}', (570, 30), cv2.FONT_HERSHEY_COMPLEX, 1, colorVol, 1)
 
     # Calculo de FPS
     time_actual = time.time()
     fps = 1 / (time_actual - time_pasado)
     time_pasado = time_actual
-    cv2.putText(frame, f'FPS: {int(fps)}', (10, 30), cv2.FONT_HERSHEY_COMPLEX,
-                1, (100, 102, 8), 2)
+    cv2.putText(frame, f'FPS: {int(fps)}', (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (100, 102, 8), 1)
 
     cv2.imshow("Subir volumen", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
