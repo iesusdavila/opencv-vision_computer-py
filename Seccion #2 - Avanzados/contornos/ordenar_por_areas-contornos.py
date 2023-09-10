@@ -32,6 +32,7 @@ contornos = encontrar_contornos(image)
 
 print("Areas antes de ordenarlas: ", obtener_contornos_areas(contornos))
 
+# Ordenar por medio la lista de contornos por medio de las areas
 contornos_ordenados = sorted(contornos, key=cv.contourArea, reverse=True)
 
 print("Areas despues de ordenarlas: ", obtener_contornos_areas(contornos_ordenados))
