@@ -36,14 +36,16 @@ orginal_image = image
 
 contornos = encontrar_contornos(image)
 
+# Recorrer todos los contornos encontrados para dibujar sus centros
 for (i, c) in enumerate(contornos):
-    orig = centro_figuras(image, c, True, False)
+    orig = centro_figuras(image, c)
 
 cv.imshow("Centroide de los contornos: ", image)
 cv.waitKey(0)
 
 contornos_ordenados = sorted(contornos, key = x_cord_contour, reverse = False)
 
+# Recorrer todos los contornos ordenados para colocar un numero de posicion
 for (i,c) in enumerate(contornos_ordenados):
     centro_figuras(orginal_image, c, False, True, True, str(i+1))
     
@@ -51,6 +53,8 @@ for (i,c) in enumerate(contornos_ordenados):
     cv.waitKey(0)
     
     # Encontrar las limitadores del rectangulo
+    # x: posicion superior izquierda en x, y: posicion superior izquierda en y
+    # w: ancho de la imagen, h: alto de la imagen
     (x, y, w, h) = cv.boundingRect(c)  
     
     # Recortar la imagen para que solo aparezca la figura
